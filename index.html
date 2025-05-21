@@ -8,9 +8,26 @@
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
 <style>
-    img {
-        
-    }
+        /* 全屏菜单样式 */
+        #mobileMenu {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(255, 255, 255, 0.98);
+            z-index: 999;
+            transform: translateY(-100%);
+            transition: transform 0.3s ease;
+        }
+        #mobileMenu.active {
+            transform: translateY(0);
+        }
+        .close-btn {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+        }
 </style>
 <body class="bg-gray-50">
     <!-- 导航栏 -->
@@ -27,19 +44,29 @@
                     <a href="#" class="text-gray-700 hover:text-blue-600">About</a>
                     <a href="#" class="text-gray-700 hover:text-blue-600">Contact</a>
                 </div>
-                <!-- 移动端菜单按钮（点击事件） -->
-                <button class="md:hidden" onclick="document.getElementById('mobileMenu').classList.toggle('hidden')">
+                <!-- 汉堡按钮 -->
+                <button class="md:hidden" onclick="toggleMenu(true)">
                     <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"/>
                     </svg>
                 </button>
-            </div>
-                <!-- 新增移动端菜单 -->
-                <div class="md:hidden hidden" id="mobileMenu">
-                    <a href="#" class="block py-2 px-4 text-gray-700 hover:bg-gray-100">Products</a>
-                    <a href="#" class="block py-2 px-4 text-gray-700 hover:bg-gray-100">About</a>
-                    <a href="#" class="block py-2 px-4 text-gray-700 hover:bg-gray-100">Contact</a>
+                <!-- 全屏移动菜单 -->
+                <div id="mobileMenu" class="md:hidden">
+                    <!-- 关闭按钮 -->
+                    <button class="close-btn" onclick="toggleMenu(false)">
+                        <svg class="w-8 h-8 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                        </svg>
+                    </button>
+                    
+                    <!-- 菜单内容 -->
+                    <div class="flex flex-col items-center justify-center h-full space-y-6">
+                        <a href="#" class="text-2xl text-gray-800 hover:text-blue-600">Products</a>
+                        <a href="#" class="text-2xl text-gray-800 hover:text-blue-600">About</a>
+                        <a href="#" class="text-2xl text-gray-800 hover:text-blue-600">Contact</a>
+                    </div>
                 </div>
+            </div>
         </div>
     </nav>
 
@@ -67,22 +94,6 @@
                     <p class="text-gray-600">Certified organic material, ideal for apparel.</p>
                 </div>
             </div>
-            <!-- 产品卡片 -->
-            <div class="bg-white rounded-lg shadow-md overflow-hidden">
-                <img src="http://t13.baidu.com/it/u=609890048,92435013&fm=224&app=112&f=JPEG?w=500&h=500" alt="Fabric" class="w-full h-48 object-cover">
-                <div class="p-4">
-                    <h3 class="font-bold text-lg mb-2">Eco-Friendly Cotton</h3>
-                    <p class="text-gray-600">Certified organic material, ideal for apparel.</p>
-                </div>
-            </div>
-            <!-- 产品卡片 -->
-            <div class="bg-white rounded-lg shadow-md overflow-hidden">
-                <img src="http://t13.baidu.com/it/u=609890048,92435013&fm=224&app=112&f=JPEG?w=500&h=500" alt="Fabric" class="w-full h-48 object-cover">
-                <div class="p-4">
-                    <h3 class="font-bold text-lg mb-2">Eco-Friendly Cotton</h3>
-                    <p class="text-gray-600">Certified organic material, ideal for apparel.</p>
-                </div>
-            </div>
             <!-- 重复更多产品卡片 -->
         </div>
     </div>
@@ -94,7 +105,7 @@
             <!-- 替换为实际视频嵌入代码 -->
             <div class="relative h-[40vh] md:h-[30vh]">  <!-- 手机40%视口高度，电脑30% -->
                 <iframe 
-                  src="//player.bilibili.com/player.html?isOutside=true&aid=789606414&bvid=BV1Ty4y1N76y&cid=1297413728&p=1" 
+                  src="#" 
                   class="w-full h-full rounded-lg shadow-xl" 
                   allowfullscreen>
                 </iframe>
@@ -113,4 +124,20 @@
         </div>
     </footer>
 </body>
+    <script>
+        function toggleMenu(show) {
+            const menu = document.getElementById('mobileMenu');
+            menu.classList.toggle('active', show);
+            
+            // 切换页面滚动锁定
+            document.body.style.overflow = show ? 'hidden' : 'auto';
+        }
+
+        // 点击遮罩层关闭
+        document.getElementById('mobileMenu').addEventListener('click', (e) => {
+            if(e.target === document.getElementById('mobileMenu')) {
+                toggleMenu(false)
+            }
+        })
+    </script>
 </html>
